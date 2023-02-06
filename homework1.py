@@ -35,29 +35,24 @@ def menu():
 menu()
 option = input()
 
-#loop to keep outputting menu until 'q' is taken as an input
+#loop to keaep outputting menu until 'q' is taken as an input
 while option != "q":
     if option == "a":
-        print("add case\n")
+        #insert entry into table
+        cursor.execute("INSERT INTO covidcases (countryname, year, totalcases, deaths, recovered) VALUES (%s,%s,%s,%s,%s)", ("US", 2021, 20, 20, 20))
+        con.commit()
     elif option == "o":
-        print("output all cases\n")
+        #test if entry was commited
+        sql = 'select * from covidcases'
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+
+        for user in rows:
+            print(user)
+
     else:
         print("Invalid Option\n")
 
     menu()
     option = input()
-
-#insert entry into table
-#cursor.execute("INSERT INTO covidcases (countryname, year, totalcases, deaths, recovered) VALUES (%s,%s,%s,%s,%s)", ("US", 2021, 20, 20, 20))
-#con.commit()
-
-
-#test if entry was commited
-#sql = 'select * from covidcases'
-#cursor.execute(sql)
-#rows = cursor.fetchall()
-
-#for user in rows:
-#    print(user)
-
     
