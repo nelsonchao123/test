@@ -26,7 +26,7 @@ cursor = con.cursor(dictionary=True)
 
 #create menu function
 def menu():
-    print("MENU\n")
+    print("\nMENU\n")
     print("a - Add cases\n")
     print("o - Output all cases in console\n")
     print("q- Quit\n")
@@ -35,12 +35,22 @@ def menu():
 menu()
 option = input()
 
-#loop to keaep outputting menu until 'q' is taken as an input
+#loop to keep outputting menu until 'q' is taken as an input
 while option != "q":
     if option == "a":
+        countryname = input("Enter country name: ")
+        year = input("Enter year: ")
+        totalcases = input("Enter total cases: ")
+        deaths = input("Enter deaths: ")
+        recovered = input("Enter number recovered: ")
+
+        #used to test if inputs are taken correctly
+        #print(countryname, year, totalcases, deaths, recovered)
+
         #insert entry into table
-        cursor.execute("INSERT INTO covidcases (countryname, year, totalcases, deaths, recovered) VALUES (%s,%s,%s,%s,%s)", ("US", 2021, 20, 20, 20))
+        cursor.execute("INSERT INTO covidcases (countryname, year, totalcases, deaths, recovered) VALUES (%s,%s,%s,%s,%s)", (countryname, year, totalcases, deaths, recovered))
         con.commit()
+
     elif option == "o":
         #test if entry was commited
         sql = 'select * from covidcases'
