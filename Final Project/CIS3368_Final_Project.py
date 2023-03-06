@@ -31,6 +31,7 @@ def login_api():
             return '<h1> Authorized user access </h1>'
     return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
+#get api for captain table
 @app.route('/api/captain', methods = ['GET'])
 def get_captain():
     sql = "select * from captain"
@@ -38,6 +39,7 @@ def get_captain():
 
     return jsonify(user)
 
+#get api for spaceship table
 @app.route('/api/spaceship', methods = ['GET'])
 def get_spaceship():
     sql = "select * from spaceship"
@@ -45,11 +47,54 @@ def get_spaceship():
 
     return jsonify(user)
 
+#get api for cargo table
 @app.route('/api/cargo', methods = ['GET'])
 def get_cargo():
     sql = "select * from cargo"
     user = execute_read_query(connection,sql)
 
     return jsonify(user)
+
+#post api for captain table
+@app.route('/api/captain', methods = ['POST'])
+def post_captain():
+    request_data = request.get_json()
+    newfirstname = request_data['firstname']
+    newlastname = request_data['lastname']
+    newrank = request_data['rank']
+    newhome = request_data['homeplanet']
+
+    sql = "insert into captain(firstname, lastname, rank, homeplanet) VALUES ('%s', '%s', '%s', '%s')" % (newfirstname, newlastname, newrank, newhome)
+    execute_query(connection, sql)
+
+    return 'Add Request Successful'
+
+#post api for spaceship table
+@app.route('/api/spaceship', methods = ['POST'])
+def post_spaceship():
+    request_data = request.get_json()
+    newweight = request_data['maxweight']
+    newcapid = request_data['captainid']
+
+    sql = "insert into spaceship(maxweight, captainid) VALUES ('%s', '%s')" % (newweight, newcapid)
+    execute_query(connection, sql)
+
+    return 'Add Request Successful'
+
+#post api for cargo table
+@app.route('/api/cargo', methods = ['POST'])
+def post_captain():
+    request_data = request.get_json()
+    newweightcarg = request_data['weight']
+    newcargtype = request_data['cargotype']
+    newdepart = request_data['departure']
+    newarrival = request_data['arrival']
+    newshipid = request_data['shipid']
+
+    sql = "insert into captain(weight, cargotype, departure, arrival, shipid) VALUES ('%s', '%s', '%s', '%s', '%s')" % (newweightcarg, newcargtype, newdepart, newarrival, newshipid)
+    execute_query(connection, sql)
+
+    return 'Add Request Successful'
+
 
 app.run()
