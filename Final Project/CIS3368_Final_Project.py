@@ -96,5 +96,39 @@ def post_captain():
 
     return 'Add Request Successful'
 
+#delete api for captain table
+@app.route('/api/captain', methods = ['DELETE'])
+def del_captain():
+    request_data = request.get_json()
+    deletedID = request_data['id']
+
+    sql = "delete from captain where id = '%s'" % (deletedID)
+    execute_query(connection, sql)
+
+    return "Delete Request Successful"
+
+#delete api for spaceship table
+@app.route('/api/spaceship', methods = ['DELETE'])
+def del_captain():
+    request_data = request.get_json()
+    deletedID = request_data['id']
+
+    sql = "delete from spaceship where id = '%s'" % (deletedID)
+    execute_query(connection, sql)
+
+    return "Delete Request Successful"
+
+#delete api for cargo table
+@app.route('/api/cargo', methods = ['DELETE'])
+def del_captain():
+    request_data = request.get_json()
+    deletedID = request_data['id']
+
+    sql = "delete from cargo where id = '%s'" % (deletedID)
+    execute_query(connection, sql)
+
+    return "Delete Request Successful"
+
+
 
 app.run()
