@@ -64,7 +64,7 @@ def post_captain():
     newrank = request_data['rank']
     newhome = request_data['homeplanet']
 
-    sql = "insert into captain(firstname, lastname, rank, homeplanet) VALUES ('%s', '%s', '%s', '%s')" % (newfirstname, newlastname, newrank, newhome)
+    sql = "insert into captain(firstname, lastname, `rank`, homeplanet) VALUES ('%s', '%s', '%s', '%s')" % (newfirstname, newlastname, newrank, newhome)
     execute_query(connection, sql)
 
     return 'Add Request Successful'
@@ -139,7 +139,7 @@ def put_captain():
     changedrank = request_data['rank']
     changedHP = request_data['homeplanet']
 
-    sql = "replace into captain SET id = '%s', firstname = '%s', lastname = '%s', rank = '%s', homeplanet = '%s';" % (changedID, changedFN, changedLN, changedrank, changedHP)
+    sql = "replace into captain SET id = '%s', firstname = '%s', lastname = '%s', `rank` = '%s', homeplanet = '%s';" % (changedID, changedFN, changedLN, changedrank, changedHP)
     execute_query(connection, sql)
 
     return "Put Request Successful"
