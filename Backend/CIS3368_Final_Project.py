@@ -102,7 +102,11 @@ def del_captain():
     request_data = request.get_json()
     deletedID = request_data['id']
 
+    sql = "set foreign_key_checks = 0;"
+    execute_query(connection, sql)
     sql = "delete from captain where id = '%s'" % (deletedID)
+    execute_query(connection, sql)
+    sql = "set foreign_key_checks = 1;"
     execute_query(connection, sql)
 
     return "Delete Request Successful"
@@ -113,7 +117,11 @@ def del_spaceship():
     request_data = request.get_json()
     deletedID = request_data['id']
 
+    sql = "set foreign_key_checks = 0;"
+    execute_query(connection, sql)
     sql = "delete from spaceship where id = '%s'" % (deletedID)
+    execute_query(connection, sql)
+    sql = "set foreign_key_checks = 1;"
     execute_query(connection, sql)
 
     return "Delete Request Successful"
@@ -124,7 +132,11 @@ def del_cargo():
     request_data = request.get_json()
     deletedID = request_data['id']
 
+    sql = "set foreign_key_checks = 0;"
+    execute_query(connection, sql)
     sql = "delete from cargo where id = '%s'" % (deletedID)
+    execute_query(connection, sql)
+    sql = "set foreign_key_checks = 1;"
     execute_query(connection, sql)
 
     return "Delete Request Successful"
