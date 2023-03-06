@@ -91,7 +91,7 @@ def post_cargo():
     newarrival = request_data['arrival']
     newshipid = request_data['shipid']
 
-    sql = "insert into captain(weight, cargotype, departure, arrival, shipid) VALUES ('%s', '%s', '%s', '%s', '%s')" % (newweightcarg, newcargtype, newdepart, newarrival, newshipid)
+    sql = "insert into cargo(weight, cargotype, departure, arrival, shipid) VALUES ('%s', '%s', '%s', '%s', '%s')" % (newweightcarg, newcargtype, newdepart, newarrival, newshipid)
     execute_query(connection, sql)
 
     return 'Add Request Successful'
@@ -139,8 +139,12 @@ def put_captain():
     changedrank = request_data['rank']
     changedHP = request_data['homeplanet']
 
+    sql = "set foreign_key_checks = 0;" #so that I am able to change a table with a foreign key
+    execute_query(connection, sql)
     sql = "replace into captain SET id = '%s', firstname = '%s', lastname = '%s', `rank` = '%s', homeplanet = '%s';" % (changedID, changedFN, changedLN, changedrank, changedHP)
     execute_query(connection, sql)
+    sql = "set foreign_key_checks = 1;" #set foreign_key_checks back to true
+    execute_query(connection,sql)
 
     return "Put Request Successful"
 
@@ -152,7 +156,11 @@ def put_spaceship():
     changedMW = request_data['maxweight']
     changedCID = request_data['captainid']
 
+    sql = "set foreign_key_checks = 0;"
+    execute_query(connection, sql)
     sql = "replace into spaceship SET id = '%s', maxweight = '%s', captainid = '%s';" % (changedID, changedMW, changedCID)
+    execute_query(connection, sql)
+    sql = "set foreign_key_checks = 1;"
     execute_query(connection, sql)
 
     return "Put Request Successful"
@@ -168,7 +176,11 @@ def put_cargo():
     changedarrival = request_data['arrival']
     changedSID = request_data['shipid']
 
+    sql = "set foreign_key_checks = 0;"
+    execute_query(connection, sql)
     sql = "replace into cargo SET id = '%s', weight = '%s', cargotype = '%s', departure = '%s', arrival = '%s', shipid = '%s';" % (changedID, changedweight, changedCT, changeddepart, changedarrival, changedSID)
+    execute_query(connection, sql)
+    sql = "set foreign_key_checks = 1;"
     execute_query(connection, sql)
 
     return "Put Request Successful"
