@@ -83,7 +83,7 @@ def post_spaceship():
 
 #post api for cargo table
 @app.route('/api/cargo', methods = ['POST'])
-def post_captain():
+def post_cargo():
     request_data = request.get_json()
     newweightcarg = request_data['weight']
     newcargtype = request_data['cargotype']
@@ -109,7 +109,7 @@ def del_captain():
 
 #delete api for spaceship table
 @app.route('/api/spaceship', methods = ['DELETE'])
-def del_captain():
+def del_spaceship():
     request_data = request.get_json()
     deletedID = request_data['id']
 
@@ -120,7 +120,7 @@ def del_captain():
 
 #delete api for cargo table
 @app.route('/api/cargo', methods = ['DELETE'])
-def del_captain():
+def del_cargo():
     request_data = request.get_json()
     deletedID = request_data['id']
 
@@ -129,6 +129,48 @@ def del_captain():
 
     return "Delete Request Successful"
 
+#put api for captain table
+@app.route('/api/captain', methods = ['PUT'])
+def put_captain():
+    request_data = request.get_json()
+    changedID = request_data['id']
+    changedFN = request_data['firstname']
+    changedLN = request_data['lastname']
+    changedrank = request_data['rank']
+    changedHP = request_data['homeplanet']
 
+    sql = "replace into captain SET id = '%s', firstname = '%s', lastname = '%s', rank = '%s', homeplanet = '%s';" % (changedID, changedFN, changedLN, changedrank, changedHP)
+    execute_query(connection, sql)
+
+    return "Put Request Successful"
+
+#put api for spaceship table
+@app.route('/api/spaceship', methods = ['PUT'])
+def put_captain():
+    request_data = request.get_json()
+    changedID = request_data['id']
+    changedMW = request_data['maxweight']
+    changedCID = request_data['captainid']
+
+    sql = "replace into spaceship SET id = '%s', maxweight = '%s', captainid = '%s';" % (changedID, changedMW, changedCID)
+    execute_query(connection, sql)
+
+    return "Put Request Successful"
+
+#put api for cargo table
+@app.route('/api/cargo', methods = ['PUT'])
+def put_captain():
+    request_data = request.get_json()
+    changedID = request_data['id']
+    changedweight = request_data['weight']
+    changedCT = request_data['cargotype']
+    changeddepart = request_data['departure']
+    changedarrival = request_data['arrival']
+    changedSID = request_data['shipid']
+
+    sql = "replace into cargo SET id = '%s', weight = '%s', cargotype = '%s', departure = '%s', arrival = '%s', shipid = '%s';" % (changedID, changedweight, changedCT, changeddepart, changedarrival, changedSID)
+    execute_query(connection, sql)
+
+    return "Put Request Successful"
 
 app.run()
