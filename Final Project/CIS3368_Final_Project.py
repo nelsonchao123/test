@@ -31,6 +31,25 @@ def login_api():
             return '<h1> Authorized user access </h1>'
     return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
-#test commit5
+@app.route('/api/captain', methods = ['GET'])
+def get_captain():
+    sql = "select * from captain"
+    user = execute_read_query(connection,sql)
+
+    return jsonify(user)
+
+@app.route('/api/spaceship', methods = ['GET'])
+def get_spaceship():
+    sql = "select * from spaceship"
+    user = execute_read_query(connection,sql)
+
+    return jsonify(user)
+
+@app.route('/api/cargo', methods = ['GET'])
+def get_cargo():
+    sql = "select * from cargo"
+    user = execute_read_query(connection,sql)
+
+    return jsonify(user)
 
 app.run()
