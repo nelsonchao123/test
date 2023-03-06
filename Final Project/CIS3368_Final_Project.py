@@ -146,7 +146,7 @@ def put_captain():
 
 #put api for spaceship table
 @app.route('/api/spaceship', methods = ['PUT'])
-def put_captain():
+def put_spaceship():
     request_data = request.get_json()
     changedID = request_data['id']
     changedMW = request_data['maxweight']
@@ -159,7 +159,7 @@ def put_captain():
 
 #put api for cargo table
 @app.route('/api/cargo', methods = ['PUT'])
-def put_captain():
+def put_cargo():
     request_data = request.get_json()
     changedID = request_data['id']
     changedweight = request_data['weight']
