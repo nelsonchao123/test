@@ -48,12 +48,12 @@ def get_spaceship():
     return jsonify(user)
 
 #get api for cargo table
-#@app.route('/api/cargo', methods = ['GET'])
-#def get_cargo():
-#    sql = "select * from cargo"
-#    user = execute_read_query(connection,sql)
+@app.route('/api/cargo', methods = ['GET'])
+def get_cargo():
+    sql = "select * from cargo"
+    user = execute_read_query(connection,sql)
 
-#    return jsonify(user)
+    return jsonify(user)
 
 #post api for captain table
 @app.route('/api/captain', methods = ['POST'])
@@ -82,7 +82,7 @@ def post_spaceship():
     return 'Add Request Successful'
 
 #post api for cargo table
-@app.route('/api/cargo', methods = ['GET', 'POST'])
+@app.route('/api/cargo', methods = ['POST'])
 def post_cargo():
     checkweight = 0
 
@@ -198,7 +198,12 @@ def put_spaceship():
 #put api for cargo table
 @app.route('/api/cargo', methods = ['PUT'])
 def put_cargo():
+    checkweight = 0
+
     request_data = request.get_json()
+
+    checkshipid = request_data["shipid"]
+
     changedID = request_data['id']
     changedweight = request_data['weight']
     changedCT = request_data['cargotype']
@@ -206,13 +211,34 @@ def put_cargo():
     changedarrival = request_data['arrival']
     changedSID = request_data['shipid']
 
-    sql = "set foreign_key_checks = 0;"
-    execute_query(connection, sql)
-    sql = "replace into cargo SET id = '%s', weight = '%s', cargotype = '%s', departure = '%s', arrival = '%s', shipid = '%s';" % (changedID, changedweight, changedCT, changeddepart, changedarrival, changedSID)
-    execute_query(connection, sql)
-    sql = "set foreign_key_checks = 1;"
-    execute_query(connection, sql)
+    sql = "select maxweight from spaceship where id = '%s'" % (checkshipid)
+    weinum = execute_read_query(connection, sql)
+    weighnum = weinum[0]
+    weightnum = weighnum["maxweight"]
 
-    return "Put Request Successful"
+    sql = "select weight from cargo where shipid = '%s'" % (checkshipid)
+    cargwei = execute_read_query(connection, sql)
+    for i in cargwei:
+        checkweight += i["weight"]
+
+    sql = "select weight from cargo where id = '%s'" % (changedID)
+    subwei = execute_read_query(connection, sql)
+    subweigh = subwei[0]
+    subweight = subweigh["weight"]
+
+    checkweight -= subweight
+
+    if checkweight + changedweight <= weightnum:
+        sql = "set foreign_key_checks = 0;"
+        execute_query(connection, sql)
+        sql = "replace into cargo SET id = '%s', weight = '%s', cargotype = '%s', departure = '%s', arrival = '%s', shipid = '%s';" % (changedID, changedweight, changedCT, changeddepart, changedarrival, changedSID)
+        execute_query(connection, sql)
+        sql = "set foreign_key_checks = 1;"
+        execute_query(connection, sql)
+
+        return "Put Request Successful"
+    else:
+        return 'Cargo weight exceeds ship weight'
+
 
 app.run()
