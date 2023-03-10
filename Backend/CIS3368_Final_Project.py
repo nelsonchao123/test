@@ -48,12 +48,12 @@ def get_spaceship():
     return jsonify(user)
 
 #get api for cargo table
-@app.route('/api/cargo', methods = ['GET'])
-def get_cargo():
-    sql = "select * from cargo"
-    user = execute_read_query(connection,sql)
+#@app.route('/api/cargo', methods = ['GET'])
+#def get_cargo():
+#    sql = "select * from cargo"
+#    user = execute_read_query(connection,sql)
 
-    return jsonify(user)
+#    return jsonify(user)
 
 #post api for captain table
 @app.route('/api/captain', methods = ['POST'])
@@ -82,19 +82,37 @@ def post_spaceship():
     return 'Add Request Successful'
 
 #post api for cargo table
-@app.route('/api/cargo', methods = ['POST'])
+@app.route('/api/cargo', methods = ['GET', 'POST'])
 def post_cargo():
+    checkweight = 0
+
     request_data = request.get_json()
+
+    checkshipid = request_data['shipid']
+
     newweightcarg = request_data['weight']
     newcargtype = request_data['cargotype']
     newdepart = request_data['departure']
     newarrival = request_data['arrival']
     newshipid = request_data['shipid']
 
-    sql = "insert into cargo(weight, cargotype, departure, arrival, shipid) VALUES ('%s', '%s', '%s', '%s', '%s')" % (newweightcarg, newcargtype, newdepart, newarrival, newshipid)
-    execute_query(connection, sql)
+    sql = "select maxweight from spaceship where id = '%s'" % (checkshipid)
+    weinum = execute_read_query(connection, sql)
+    weighnum = weinum[0]
+    weightnum = weighnum["maxweight"]
 
-    return 'Add Request Successful'
+    sql = "select weight from cargo where shipid = '%s'" % (checkshipid)
+    cargwei = execute_read_query(connection, sql)
+    for i in cargwei:
+        checkweight += i["weight"]
+
+    if checkweight + newweightcarg <= weightnum:
+        sql = "insert into cargo(weight, cargotype, departure, arrival, shipid) VALUES ('%s', '%s', '%s', '%s', '%s')" % (newweightcarg, newcargtype, newdepart, newarrival, newshipid)
+        execute_query(connection, sql)
+
+        return 'Add Request Successful'
+    else:
+        return 'Cargo weight exceeds ship weight'
 
 #delete api for captain table
 @app.route('/api/captain', methods = ['DELETE'])
