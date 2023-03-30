@@ -11,39 +11,18 @@
 
     <main>
         <div class="jumbotron">
-        <button onclick="myFunction()">Load</button>
-        <p id="output"></p>
-        <script>
-            function myFunction()
-            {
-                var arr = [];
-                while(arr.length < 3)
-                {
-                    var a = Math.floor(Math.random() * 10) + 1;
-                    if(arr.indexOf(a) === -1) arr.push(a);
-                }
-
-                const url1 = "https://jsonplaceholder.typicode.com/users/";
-
-                const mainUL = document.createElement('ul');
-
-                var the_output = ""
-
-                for (i = 0; i < arr.length; i++)
-                {
-                    fetch(url1 + arr[i])
-                    .then(response => response.json())
-                    .then(data => {
-                        
-                        the_output += "<p>" + "Name: " + data.name + "<br>" + "City: " + data.address.city + "<br>" + "Company: " + data.company.name + "</p>";
-                        document.getElementById("output").innerHTML = the_output;
-
-                    })
-                    
-                }
-                
-            }
-        </script>
+            <button>Load</button>
+            <% if (locals.users) { %>
+                <ol>
+                    <% users.forEach(function(user) { %>
+                        <li>
+                            <strong>Name: <%= user.namE %><br></strong>
+                            <strong>City: <%= user.citY %><br></strong>
+                            <strong>Company: <%= user.comP %><br><br></strong>
+                        </li>
+                    <% }); %>
+                </ol>
+            <% } %>
         </div>
     </main>
 
