@@ -11,18 +11,9 @@
 
     <main>
         <div class="jumbotron">
-            <button>Load</button>
-            <% if (locals.users) { %>
-                <ol>
-                    <% users.forEach(function(user) { %>
-                        <li>
-                            <strong>Name: <%= user.namE %><br></strong>
-                            <strong>City: <%= user.citY %><br></strong>
-                            <strong>Company: <%= user.comP %><br><br></strong>
-                        </li>
-                    <% }); %>
-                </ol>
-            <% } %>
+            <form action="/load_user" method="post">
+                <button>Load</button>
+            </form>
         </div>
     </main>
 

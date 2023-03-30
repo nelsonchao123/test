@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <form action="/load_user" method="post">
+                <button>Load</button>
+                <% if (locals.users) { %>
+                    <ol>
+                        <% users.forEach(function(user) { %>
+                            <li>
+                                <strong>Name: <%= user.namE %><br></strong>
+                                <strong>City: <%= user.citY %><br></strong>
+                                <strong>Company: <%= user.comP %><br><br></strong>
+                            </li>
+                        <% }); %>
+                    </ol>
+                <% } %>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+</html>

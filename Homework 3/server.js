@@ -7,6 +7,10 @@ const axios = require("axios")
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
+    res.render('pages/index', {});
+});
+
+app.post('/load_user', function(req, res) {
 
     var arr = [];
     while(arr.length < 3)
@@ -23,7 +27,7 @@ app.get('/', function(req, res) {
             {namE: response.data[arr[2]-1].name, citY: response.data[arr[2]-1].address.city, comP: response.data[arr[2]-1].company.name}
         ];
 
-        res.render('pages/index', {
+        res.render('pages/index2', {
             users: users
         });
     })
